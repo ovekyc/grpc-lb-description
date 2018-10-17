@@ -29,8 +29,11 @@ export GRPC_VERBOSITY=DEBUG
   - [Setting LB policy](#setting-lb-policy)
 - [References](#references)
 
-## gRPC Core lb policies
+## gRPC Core
+
+
 There are two kind of LB policies in gRPC Core. `pick_first` and `round_robin`.
+
 
 ### pick_first
 Title is description. **Default** lb-policy.<br>
