@@ -3,18 +3,19 @@
 This is a description of how gRPC load balancing works with external load balancer.<br>
 Before reading this paper, make sure you understand a concept of [Load Balancing in gRPC](https://github.com/grpc/grpc/blob/master/doc/load-balancing.md). <br>
 
-This paper is more engaged in `grpclb policy`, `load_balancer` and `external_load_balacer` with little python gRPC client examples. <br>
-Here are quick definitions of above.
-- grpclb-policy(lb-policy): load balancing policy within gRPC communication.
-- load_balancer: instance of load balancer corresponding lb-policy
-- external_load_balacer: external lb, not in gRPC.
+This paper is more engaged in `grpclb policy`, `load_balancer` and `external_load_balacer` with little python gRPC client examples. Here are quick definitions.
 
-All the debug message on this paper, actually can be seen by setting gRPC debug env variables.  
+| name                         | description |
+| ---------------------------- | ----------- |
+| **grpclb-policy(lb-policy)** | load balancing policy within gRPC communication. |
+| **load_balancer**            | instance of load balancer corresponding lb-policy. |
+| **external_load_balacer**    | external lb, not in gRPC. |
+
+All the debug message on this paper, actually can be seen by setting gRPC debug ENV variables.  
 ```bash
 export GRPC_TRACE=client_channel,pick_first,round_robin
 export GRPC_VERBOSITY=DEBUG
 ```
-
 **Environment**
 - Ubuntu 16.04 LTS
 - Python 3.6.5
@@ -28,8 +29,8 @@ export GRPC_VERBOSITY=DEBUG
   - [Setting LB policy](#setting-lb-policy)
 - [References](#references)
 
-## gRPC load balancing policies
-There are two kind of gRPC LB policies currently in gRPC Core. `pick_first` and `round_robin`.
+## gRPC Core lb policies
+There are two kind of LB policies in gRPC Core. `pick_first` and `round_robin`.
 
 ### pick_first
 Title is description. **Default** lb-policy.<br>
