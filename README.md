@@ -21,14 +21,14 @@ channel = grpc.insecure_channel(target='localhost:9999',
 ....
 channel.close()
 ```
-> you shuold call `channel.close()` explicitly. Or use with statement. See [channel.close()](https://github.com/grpc/grpc/pull/15725)<br>
-> `round_robin` policy work from gRPC version 1.14.0. See [v1.14.0](https://github.com/grpc/grpc/releases/tag/v1.14.0)
+> You shuold call `channel.close()` explicitly. Or use with statement. ([channel.close()](https://github.com/grpc/grpc/pull/15725))<br>
+> `round_robin` policy work since [v1.14.0](https://github.com/grpc/grpc/releases/tag/v1.14.0).
 
 
 You might notice that channel instance get some grpc options. <br>
 Python passes these args to the Core transparently.
+> See more core options: [gRPC arg keys](https://grpc.io/grpc/core/group__grpc__arg__keys.html)
 
-> See more Core options: [gRPC arg keys](https://grpc.io/grpc/core/group__grpc__arg__keys.html)
 
 
 
