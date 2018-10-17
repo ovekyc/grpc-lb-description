@@ -3,7 +3,6 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [gRPC Load Balancing](#grpc-load-balancing)
-      - [Environment](#environment)
   - [gRPC load balancing policies](#grpc-load-balancing-policies)
     - [pick_first](#pick_first)
     - [round_robin](#round_robin)
