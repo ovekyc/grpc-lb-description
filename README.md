@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [gRPC Load Balancing](#grpc-load-balancing)
+      - [Environment](#environment)
+  - [gRPC load balancing policies](#grpc-load-balancing-policies)
+    - [pick_first](#pick_first)
+    - [round_robin](#round_robin)
+    - [Setting LB policy](#setting-lb-policy)
+- [References](#references)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # gRPC Load Balancing
 
 This is a description of how gRPC load balancing works with load balancer.<br>
