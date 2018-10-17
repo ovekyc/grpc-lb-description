@@ -16,10 +16,41 @@ export GRPC_VERBOSITY=DEBUG
 
 
 ## gRPC load balancing policies
+There are two kind of gRPC LB policies. `pick_first` and `round_robin`.
 
-There are two kind of gRPC LB policies. `first_pick` and `round_robin`.
-This can be specified on options which is passed to channel parameter.
+### pick_first
+Title is description. **Default** lb-policy.<br>
+Picks a **first** element from subchannel list. Also, establishing only **one connection** with selected server.
+```
+subchannel_list.h:323]        [pick_first 0x7faaeb1686b0] subchannel list 0x7faaed85e340 index 0 of 4 (subchannel 0x7faaed8d6000): starting watch: requesting connectivity change notification (from IDLE)
+subchannel_list.h:435]        [pick_first 0x7faaeb1686b0] subchannel list 0x7faaed85e340 index 0 of 4 (subchannel 0x7faaed8d6000): connectivity changed: state=CONNECTING, error="No Error", shutting_down=0
+subchannel_list.h:344]        [pick_first 0x7faaeb1686b0] subchannel list 0x7faaed85e340 index 0 of 4 (subchannel 0x7faaed8d6000): renewing watch: requesting connectivity change notification (from CONNECTING)
+client_channel.cc:189]        chand=0x7faaedbc1228: lb_policy=0x7faaeb1686b0 state changed to CONNECTING
+```
+### round_robin
+Title is description. You can specify this lb-policy through channel options.<br>
+Establishing **all connection** in subchannel list.
+```
+subchannel_list.h:323]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 0 of 4 (subchannel 0x7fad7586f3c0): starting watch: requesting connectivity change notification (from IDLE)
+subchannel_list.h:323]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 1 of 4 (subchannel 0x7fad75865f40): starting watch: requesting connectivity change notification (from IDLE)
+subchannel_list.h:323]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 2 of 4 (subchannel 0x7fad758717c0): starting watch: requesting connectivity change notification (from IDLE)
+subchannel_list.h:323]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 3 of 4 (subchannel 0x7fad75875fc0): starting watch: requesting connectivity change notification (from IDLE)
+subchannel_list.h:435]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 0 of 4 (subchannel 0x7fad7586f3c0): connectivity changed: state=CONNECTING, error="No Error", shutting_down=0
+round_robin.cc:560]           [RR 0x7fad82eef440] connectivity changed for subchannel 0x7fad7586f3c0, subchannel_list 0x7fad843a5810 (index 0 of 4): prev_state=IDLE new_state=CONNECTING
+subchannel_list.h:344]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 0 of 4 (subchannel 0x7fad7586f3c0): renewing watch: requesting connectivity change notification (from CONNECTING)
+subchannel_list.h:435]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 1 of 4 (subchannel 0x7fad75865f40): connectivity changed: state=CONNECTING, error="No Error", shutting_down=0
+round_robin.cc:560]           [RR 0x7fad82eef440] connectivity changed for subchannel 0x7fad75865f40, subchannel_list 0x7fad843a5810 (index 1 of 4): prev_state=IDLE new_state=CONNECTING
+subchannel_list.h:344]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 1 of 4 (subchannel 0x7fad75865f40): renewing watch: requesting connectivity change notification (from CONNECTING)
+subchannel_list.h:435]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 2 of 4 (subchannel 0x7fad758717c0): connectivity changed: state=CONNECTING, error="No Error", shutting_down=0
+round_robin.cc:560]           [RR 0x7fad82eef440] connectivity changed for subchannel 0x7fad758717c0, subchannel_list 0x7fad843a5810 (index 2 of 4): prev_state=IDLE new_state=CONNECTING
+subchannel_list.h:344]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 2 of 4 (subchannel 0x7fad758717c0): renewing watch: requesting connectivity change notification (from CONNECTING)
+subchannel_list.h:435]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 3 of 4 (subchannel 0x7fad75875fc0): connectivity changed: state=CONNECTING, error="No Error", shutting_down=0
+round_robin.cc:560]           [RR 0x7fad82eef440] connectivity changed for subchannel 0x7fad75875fc0, subchannel_list 0x7fad843a5810 (index 3 of 4): prev_state=IDLE new_state=CONNECTING
+subchannel_list.h:344]        [round_robin 0x7fad82eef440] subchannel list 0x7fad843a5810 index 3 of 4 (subchannel 0x7fad75875fc0): renewing watch: requesting connectivity change notification (from CONNECTING)
+client_channel.cc:189]        chand=0x7fad82fee5f8: lb_policy=0x7fad82eef440 state changed to CONNECTING
+```
 
+### Setting LB policy 
 ```python
 import grpc
 channel = grpc.insecure_channel(
@@ -31,14 +62,7 @@ channel.close()
 > `round_robin` policy work since [v1.14.0](https://github.com/grpc/grpc/releases/tag/v1.14.0).
 
 Channel instance get grpc options. Python passes these args to the Core transparently.<br>
-Which means grpc options, including lb-policy, are valid within a channel instance.
 > See more core options: [gRPC arg keys](https://grpc.io/grpc/core/group__grpc__arg__keys.html)
-
-#### first_pick
-
-This is a default lb-policy. <br>
-As you can see on the name of it, this picks a first element from lb-list. Also, this establish only one connection with selected server.
-
 
 
 
