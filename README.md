@@ -1,32 +1,26 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [gRPC Load Balancing](#grpc-load-balancing)
-  - [gRPC load balancing policies](#grpc-load-balancing-policies)
-    - [pick_first](#pick_first)
-    - [round_robin](#round_robin)
-    - [Setting LB policy](#setting-lb-policy)
-- [References](#references)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# gRPC Load Balancing
+# gRPC and Load Balancer(LB)
 
 This is a description of how gRPC load balancing works with load balancer.<br>
 This paper is written with python client example.<br>
 All the debug message on this paper, actually can be seen by setting gRPC debug env variables.
    
 ```bash
-export GRPC_TRACE=client_channel,pick_first,round_robin,glb
+export GRPC_TRACE=client_channel,pick_first,round_robin
 export GRPC_VERBOSITY=DEBUG
 ```
 
-#### Environment
+**Environment**
 - Ubuntu 16.04 LTS
 - Python 3.6.5
 - gRPC 1.15.0
 
+
+**Table of Contents**
+- [gRPC load balancing policies](#grpc-load-balancing-policies)
+  - [pick_first](#pick_first)
+  - [round_robin](#round_robin)
+  - [Setting LB policy](#setting-lb-policy)
+- [References](#references)
 
 ## gRPC load balancing policies
 There are two kind of gRPC LB policies. `pick_first` and `round_robin`.
@@ -81,7 +75,7 @@ Channel instance get grpc options. Python passes these args to the Core transpar
 
 
 
-# References
+## References
 - https://github.com/grpc/grpc/blob/master/doc/load-balancing.md
 
 
