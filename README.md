@@ -31,6 +31,8 @@ export GRPC_VERBOSITY=DEBUG
 
 ## gRPC Core
 
+gRPC channel has connectivity state inside of it. And this is chaged by time. <br>
+`IDLE -> CONNECTING -> READY -> SHUTDOWN`
 
 There are two kind of LB policies in gRPC Core. `pick_first` and `round_robin`.
 
